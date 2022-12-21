@@ -38,28 +38,47 @@ Now that you're correctly decrypting the ultra top secret strategy guide, you wo
 
 Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
 """
-ops = ['Rock', 'Paper', 'Scissors']
-codes = {'A': ops[0], 'B': ops[1], 'C': ops[2], 
-         'X': ops[0], 'Y': ops[1], 'Z': ops[2]}
-
-score_own_hand_played = {'Rock': 1, 'Paper': 2, 'Scissors': 3}
-outcome_round = {'lost': 0, 'draw': 3, 'won': 6}
-
-total_score = 0
-
-with open('input_d2.txt') as file:
+filename = 'inputs/input_d2.txt'
+with open(filename) as file:
     lines = file.readlines()
+    file.close()
 
-    for line in lines:
-        opponent_hand, own_hand = [codes[hand] for hand in line.split()]
 
-        total_score += score_own_hand_played[own_hand]
+OUTCOME_SCORE = {
+    ('A', 'X'): 3, ('B', 'X'): 0, ('C', 'X'): 6,
+    ('A', 'Y'): 6, ('B', 'Y'): 3, ('C', 'Y'): 0,
+    ('A', 'Z'): 0, ('B', 'Z'): 6, ('C', 'Z'): 3}
 
-        if own_hand == opponent_hand:
-            total_score += outcome_round['draw']
-        elif opponent_hand == ops[2] and own_hand == ops[0] or\
-            opponent_hand == ops[0] and own_hand == ops[1] or\
-            opponent_hand == ops[1] and own_hand == ops[2] :
-            total_score += outcome_round['won']
+SCORE_OWN_HAND = {'X': 1, 'Y': 2, 'Z': 3}
 
-print(f"The total score, if everything goes exactly according to my strategy guide, would be {total_score}.")
+p1_score = 0
+
+for line in lines:
+    opponent_hand, own_hand = line.split()
+    
+    p1_score += OUTCOME_SCORE[(opponent_hand, own_hand)] \
+                + SCORE_OWN_HAND[own_hand]
+
+print(f"Part ONE - The total score, if everything goes exactly according to my strategy guide, would be {p1_score}.")
+
+
+OUTCOME_SCORE = {
+    ('A', 'X'): 0, ('B', 'X'): 0, ('C', 'X'): 0,
+    ('A', 'Y'): 3, ('B', 'Y'): 3, ('C', 'Y'): 3,
+    ('A', 'Z'): 6, ('B', 'Z'): 6, ('C', 'Z'): 6}
+
+OWN_HAND_SCORE = {
+    ('A', 'X'): 3, ('B', 'X'): 1, ('C', 'X'): 2,
+    ('A', 'Y'): 1, ('B', 'Y'): 2, ('C', 'Y'): 3,
+    ('A', 'Z'): 2, ('B', 'Z'): 3, ('C', 'Z'): 1}
+
+p2_score = 0
+
+for line in lines:
+    opponent_hand, own_hand = line.split()
+    
+    p2_score += OUTCOME_SCORE[(opponent_hand, own_hand)] \
+                + OWN_HAND_SCORE[(opponent_hand, own_hand)]
+
+
+print(f"Part TWO - Following the Elf's instructions for the second column, the total score, if everything goes exactly according to your strategy guide, is {p2_score}.")
