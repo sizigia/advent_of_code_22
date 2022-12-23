@@ -56,14 +56,12 @@ priorities_p1 for these items must still be found to organize the sticker attach
 Find the item type that corresponds to the badges of each three-Elf group. What is the sum of the priorities_p1 of those item types?
 """
 import string
+from helpers import retrieve_input
 
 priority = string.ascii_letters
 priorities_p1 = 0
 
-filename = 'inputs/input_d3.txt'
-with open(filename) as file:
-    lines = file.readlines()
-    file.close()
+lines = retrieve_input(day_number=3)
 
 def find_common_item_in_rucksacks(rucksacks, priorities_count):
     common_item = list(set.intersection(*map(set, rucksacks)))[0]
